@@ -71,7 +71,7 @@ function App() {
     <div className="app-container">
       <header>
         <div className="header-top">
-          <h1>Budget Book AI</h1>
+          <h1>LedgeAI</h1>
           {/* <div className="ai-status">
             <div className={`status-dot ${aiStatus}`} />
             AI: {aiStatus === 'checking' ? '...' : aiStatus === 'online' ? 'ON' : 'OFF'}

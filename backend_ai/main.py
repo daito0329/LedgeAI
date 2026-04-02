@@ -2,7 +2,7 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 import time
 
-app = FastAPI(title="Budget Book AI Service")
+app = FastAPI(title="LedgeAI Service")
 
 app.add_middleware(
     CORSMiddleware,

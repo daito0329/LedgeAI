@@ -3,11 +3,11 @@ version: '3.8'
 services:
   db:
     image: mysql:8.0
-    container_name: budget_db
+    container_name: ledge_db
     environment:
       MYSQL_ROOT_PASSWORD: password
-      MYSQL_DATABASE: budget_book_dev
-      MYSQL_USER: budget_user
+      MYSQL_DATABASE: ledge_ai_dev
+      MYSQL_USER: ledge_user
       MYSQL_PASSWORD: password
     ports:
       - "3306:3306"
@@ -18,7 +18,7 @@ services:
     build:
       context: ./backend_rails
       dockerfile: Dockerfile
-    container_name: budget_rails
+    container_name: ledge_rails
     command: /bin/bash -c "rm -f tmp/pids/server.pid && bundle exec rails server -b '0.0.0.0' -p 3001"
     volumes:
       - ./backend_rails:/app
@@ -27,14 +27,14 @@ services:
     depends_on:
       - db
     environment:
-      DATABASE_URL: mysql2://budget_user:password@db:3306/budget_book_dev
+      DATABASE_URL: mysql2://ledge_user:password@db:3306/ledge_ai_dev
       RAILS_ENV: development
 
   fastapi_ai:
     build:
       context: ./backend_ai
       dockerfile: Dockerfile
-    container_name: budget_fastapi
+    container_name: ledge_fastapi
     volumes:
       - ./backend_ai:/app
     ports:
@@ -44,7 +44,7 @@ services:
     build:
       context: ./frontend
       dockerfile: Dockerfile
-    container_name: budget_frontend
+    container_name: ledge_frontend
     volumes:
       - ./frontend:/app
     ports:

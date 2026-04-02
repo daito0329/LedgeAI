@@ -1,4 +1,4 @@
-# Budget Book AI
+# LedgeAI
 
 AI機能を活用した次世代の家計簿アプリケーション。
 
