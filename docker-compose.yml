@@ -1,0 +1,54 @@
+version: '3.8'
+
+services:
+  db:
+    image: mysql:8.0
+    container_name: budget_db
+    environment:
+      MYSQL_ROOT_PASSWORD: password
+      MYSQL_DATABASE: budget_book_dev
+      MYSQL_USER: budget_user
+      MYSQL_PASSWORD: password
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+
+  rails_api:
+    build:
+      context: ./backend_rails
+      dockerfile: Dockerfile
+    container_name: budget_rails
+    command: /bin/bash -c "rm -f tmp/pids/server.pid && bundle exec rails server -b '0.0.0.0' -p 3001"
+    volumes:
+      - ./backend_rails:/app
+    ports:
+      - "3001:3001"
+    depends_on:
+      - db
+    environment:
+      DATABASE_URL: mysql2://budget_user:password@db:3306/budget_book_dev
+      RAILS_ENV: development
+
+  fastapi_ai:
+    build:
+      context: ./backend_ai
+      dockerfile: Dockerfile
+    container_name: budget_fastapi
+    volumes:
+      - ./backend_ai:/app
+    ports:
+      - "8000:8000"
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: budget_frontend
+    volumes:
+      - ./frontend:/app
+    ports:
+      - "3000:3000"
+
+volumes:
+  mysql_data:
