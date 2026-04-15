@@ -2,13 +2,13 @@ import { useEffect, useState } from 'react';
 import { Calendar } from './components/Calendar';
 import { DayPanel } from './components/DayPanel';
 import { AnalysisPage } from './components/AnalysisPage';
+import { GraphAnalysisPage } from './components/GraphAnalysisPage';
+import { ChatPage } from './components/ChatPage';
 import type { Transaction, NewTransaction } from './types';
+import { API_BASE, AI_API_BASE } from './constants';
 import './index.css';
 
-const API_BASE = 'http://localhost:3001';
-const AI_API_BASE = 'http://localhost:8000';
-
-type Page = 'input' | 'analysis';
+type Page = 'input' | 'analysis' | 'statistics' | 'chat';
 
 function App() {
   const [transactions, setTransactions] = useState<Transaction[]>([]);
@@ -90,6 +90,18 @@ function App() {
           >
             管理
           </button>
+          <button
+            className={`nav-btn ${page === 'statistics' ? 'active' : ''}`}
+            onClick={() => setPage('statistics')}
+          >
+            分析
+          </button>
+          <button
+            className={`nav-btn ${page === 'chat' ? 'active' : ''}`}
+            onClick={() => setPage('chat')}
+          >
+            💬 相談
+          </button>
         </nav>
       </header>
 
@@ -111,6 +123,14 @@ function App() {
 
       {page === 'analysis' && (
         <AnalysisPage transactions={transactions} />
+      )}
+
+      {page === 'statistics' && (
+        <GraphAnalysisPage transactions={transactions} />
+      )}
+
+      {page === 'chat' && (
+        <ChatPage transactions={transactions} />
       )}
     </div>
   );

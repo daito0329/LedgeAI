@@ -4,11 +4,12 @@ services:
   db:
     image: mysql:8.0
     container_name: ledge_db
+    env_file: .env
     environment:
-      MYSQL_ROOT_PASSWORD: password
-      MYSQL_DATABASE: ledge_ai_dev
-      MYSQL_USER: ledge_user
-      MYSQL_PASSWORD: password
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
+      MYSQL_USER: ${MYSQL_USER}
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
     ports:
       - "3306:3306"
     volumes:
@@ -26,9 +27,10 @@ services:
       - "3001:3001"
     depends_on:
       - db
+    env_file: .env
     environment:
-      DATABASE_URL: mysql2://ledge_user:password@db:3306/ledge_ai_dev
-      RAILS_ENV: development
+      DATABASE_URL: ${DATABASE_URL}
+      RAILS_ENV: ${RAILS_ENV:-development}
 
   fastapi_ai:
     build:
@@ -48,7 +50,7 @@ services:
     volumes:
       - ./frontend:/app
     ports:
-      - "3000:3000"
+      - "5173:5173"
 
 volumes:
   mysql_data:

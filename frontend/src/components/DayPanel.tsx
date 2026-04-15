@@ -1,7 +1,6 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import type { Transaction, NewTransaction, Item } from '../types';
-
-const API_BASE = 'http://localhost:3001';
+import { API_BASE } from '../constants';
 
 interface Props {
   selectedDate: string;
